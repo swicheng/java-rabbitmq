@@ -64,12 +64,12 @@ public class Producer_Topics {
         channel.queueBind(queue1Name , exchangeName , "order.*");
         channel.queueBind(queue2Name , exchangeName , "*.*");
 
-        String body = "topic 模式发送消息";
+        String body = "topic 模式发送消息 rr.order.error";
         // 8.发送消息
-        channel.basicPublish(exchangeName , "order.info" , null , body.getBytes(StandardCharsets.UTF_8));
+        channel.basicPublish(exchangeName , "rr.order.error" , null , body.getBytes(StandardCharsets.UTF_8));
 
-        body = "日志信息: 日志级别为error";
-        channel.basicPublish(exchangeName , "error" , null , body.getBytes(StandardCharsets.UTF_8));
+//        body = "日志信息: 日志级别为error";
+//        channel.basicPublish(exchangeName , "error" , null , body.getBytes(StandardCharsets.UTF_8));
 
 
         channel.close();
