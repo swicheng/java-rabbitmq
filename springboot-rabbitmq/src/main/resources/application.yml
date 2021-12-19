@@ -1,0 +1,17 @@
+server:
+  port: 6666
+  servlet:
+    context-path: /api/rabbit/
+
+spring:
+  application:
+    name: rabbit-service
+
+# 配置RabbitMQ的基本信息 ip端口username password
+  rabbitmq:
+    host: 192.168.18.130
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+    publisher-confirms: true
