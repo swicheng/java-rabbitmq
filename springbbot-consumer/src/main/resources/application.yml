@@ -16,4 +16,7 @@ spring:
     virtual-host: /
     publisher-confirms: true
     publisher-returns: true
-
+    listener:
+      direct:
+        acknowledge-mode: manual
+        prefetch: 1

@@ -18,6 +18,7 @@
         <module>rabbitmq-producter</module>
         <module>rabbitmq-consumer</module>
         <module>springboot-rabbitmq</module>
+        <module>springbbot-consumer</module>
     </modules>
 
     <dependencies>

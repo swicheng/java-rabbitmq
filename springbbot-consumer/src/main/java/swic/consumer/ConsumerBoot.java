@@ -1,6 +1,5 @@
-package com.swic.consumer;
+package swic.consumer;
 
-import com.swic.config.RabbitConfig;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
@@ -8,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ConsumerBoot {
 
-    @RabbitListener(queues = {RabbitConfig.QUEUE_NAME})
+    @RabbitListener(queues = {"del_test_queue"} )
     public void consume(Message message){
         System.out.println(message);
     }

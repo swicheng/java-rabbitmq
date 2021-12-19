@@ -5,6 +5,7 @@ import com.swic.RabbitApplication;
 import com.swic.config.RabbitConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -57,5 +58,77 @@ public class ProductTest {
 
     }
 
+
+    /**
+     *   回退模式: 当消息发送给Exchange后，Exchange路由到Queue失败时 才会执行ReturnCallback
+     *   步骤:
+     *   1.开启回退模式 publisher-returns="true"
+     *   2.设置ReturnCallback
+     *   3.设置Exchange处理消息的模式:
+     *     1.如果消息没有路由到Queue，则丢弃消息(默认)
+     *     2.如果消息没有路由到Queue，返回给消息发送方法ReturnCallBack
+     *
+     */
+    @Test
+    public void testReturn(){
+
+        //1.设置交换处理失败消息的模式
+//        rabbitTemplate.setMandatory(true);
+
+        /**
+         * message 消息对象
+         * replyCode 请求码
+         * replyText错误信息
+         * exchange 交换机
+         * routingKey 路由Key
+         *
+         */
+        //2.设置ReturnCallback
+        rabbitTemplate.setReturnCallback((Message message, int replyCode, String replyText, String exchange, String routingKey)-> {
+
+            System.out.println("message："+message);
+            System.out.println("replyText:"+ replyText);
+            System.out.println("replyCode："+ replyCode);
+            System.out.println("exchange: "+ exchange);
+            System.out.println("routingKey: "+ routingKey);
+
+            System.out.println("return 执行...");
+        });
+
+    }
+
+
+    /**
+     * 过期时间
+     * 1. 队列统一过期
+     * 2. 消息过期
+     */
+    @Test
+    public void testTTl(){
+
+        for (int i = 0; i < 10; i++) {
+
+            rabbitTemplate.convertAndSend(RabbitConfig.EXCHANGE_NAME,"boot.haa" , "boot.hello"+i);
+
+        }
+    }
+
+
+
+
+    @Test
+    public void testDxl(){
+
+        for (int i = 0; i < 10; i++) {
+
+            rabbitTemplate.convertAndSend(RabbitConfig.EXCHANGE_NAME,"boot.haa" , "boot.hello"+i);
+            try {
+                Thread.sleep(1000);
+                System.out.println("发了一条");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 }
